@@ -33,7 +33,9 @@ public class UserServiceImpl implements UserService{
     @Override
     public LoginResponse loginUser(LoginDTO loginDTO) {
         String msg = "";
+        System.out.println(loginDTO.getEmail());
         User user1 = userRepository.findByEmail(loginDTO.getEmail());
+
 
         if(user1 != null){
             String password = loginDTO.getPassword();
