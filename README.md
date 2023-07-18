@@ -1,7 +1,8 @@
 # Project Name - Event Management System
 # Group No - *****
 
-![event1](https://github.com/IT21440236/Event-Management-System/assets/96247301/6dca60d3-e768-4045-9f57-b469d74a6a32)
+![Event-management-Concept -The](https://github.com/IT21440236/Event-Management-System-Server/assets/96247301/98a3165a-f0c4-444c-9aca-ea57188b0435)
+
 
 
 
