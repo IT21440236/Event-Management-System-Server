@@ -16,7 +16,8 @@ public class EventController {
     @Autowired
     private EventService eventService;
 
-    @PostMapping("/add")
+/*==================================================================*/
+//    @PostMapping("/add")
 //    public String addEvent(@RequestBody EventDTO eventDTO){
 //        String id = eventService.addEvent(eventDTO);
 //        return id;
@@ -25,12 +26,26 @@ public class EventController {
 //        Event event = eventService.addEvent(eventDTO);
 //        return event;
 //    }
+/*==================================================================*/
+
+
+    @PostMapping("/add")
     public EventDTO addEvent(@RequestBody EventDTO eventDTO){
         return eventService.addEvent(eventDTO);
     }
 
-    @GetMapping("/getEvent")
+    @GetMapping("/get")
     public List<EventDTO> getEvents(){
         return eventService.getAllEvents();
+    }
+
+    @PutMapping("/get")
+    public EventDTO updateEvent(@RequestBody EventDTO eventDTO){
+        return eventService.updateEvent(eventDTO);
+    }
+
+    @DeleteMapping("/delete")
+    public boolean deleteEvent(EventDTO eventDTO){
+        return eventService.deleteEvent(eventDTO);
     }
 }

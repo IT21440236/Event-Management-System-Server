@@ -10,7 +10,16 @@ import java.util.List;
 @Service
 public interface EventService {
 //    public Event addEvent(EventDTO eventDTO);
+
+    //CREATE
     public EventDTO addEvent(EventDTO eventDTO);
 
+    //RETRIEVE
     public List<EventDTO> getAllEvents();
+
+    //UPDATE
+    public EventDTO updateEvent(EventDTO eventDTO);
+
+    //DELETE
+    public boolean deleteEvent(EventDTO eventDTO);
 }

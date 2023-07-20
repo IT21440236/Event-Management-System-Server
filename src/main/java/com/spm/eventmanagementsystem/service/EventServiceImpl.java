@@ -19,6 +19,8 @@ public class EventServiceImpl implements EventService {
 
     @Autowired
     private ModelMapper modelMapper;
+
+
 //    @Override
 //    public Event addEvent(EventDTO eventDTO) {
 //        Event event = new Event();
@@ -36,15 +38,37 @@ public class EventServiceImpl implements EventService {
 //        eventRepository.save(event);
 //        return event;
 //    }
+
+    /*U can see how we can reduce boilerplate code with modelmapper dependency*/
+
+    //CREATE
     @Override
     public EventDTO addEvent(EventDTO eventDTO) {
         eventRepository.save(modelMapper.map(eventDTO, Event.class));
         return eventDTO;
     }
 
+    //RETRIEVE
     @Override
     public List<EventDTO> getAllEvents() {
         List<Event> eventList = eventRepository.findAll();
         return modelMapper.map(eventList, new TypeToken<List<EventDTO>>(){}.getType());
+    }
+
+
+    //UPDATE
+    @Override
+    public EventDTO updateEvent(EventDTO eventDTO){
+        eventRepository.save(modelMapper.map(eventDTO, Event.class));
+        return eventDTO;
+    }
+
+
+    //DELETE
+    @Override
+    public boolean deleteEvent(EventDTO eventDTO) {
+//        eventRepository.deleteAll();
+        eventRepository.delete(modelMapper.map(eventDTO, Event.class));
+        return true;
     }
 }
