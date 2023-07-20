@@ -1,19 +1,28 @@
 package com.spm.eventmanagementsystem.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
 public class Event {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "event_id")
-    private int eventId; //ideally this should be a String in the future, example ; BP001 ; BP - Birthday Party
+    private int eventId;
+
+    @Column(name = "event_code")
+    private String eventCode;//example ; BP001 ; BP - Birthday Party
 
     @Column(name = "event_name")
     private String eventName;
 
-    private String data;
-    private String time; //usually only start time is given for a event. so just name it time
+    private String date;
+    private String time;
     private String venue;
     private String description;
     private String organizer;
