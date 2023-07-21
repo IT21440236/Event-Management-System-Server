@@ -20,4 +20,6 @@ public class EventDTO {
     private String category;
     private int guestCount;
     private String status;
+
+
 }

@@ -6,6 +6,7 @@ import com.spm.eventmanagementsystem.entity.Event;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public interface EventService {
@@ -16,6 +17,8 @@ public interface EventService {
 
     //RETRIEVE
     public List<EventDTO> getAllEvents();
+
+    public Optional<EventDTO> getSingleEvent(String eventCode);
 
     //UPDATE
     public EventDTO updateEvent(EventDTO eventDTO);

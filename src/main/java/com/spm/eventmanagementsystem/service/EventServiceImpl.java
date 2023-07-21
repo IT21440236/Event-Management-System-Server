@@ -3,6 +3,7 @@ package com.spm.eventmanagementsystem.service;
 import com.spm.eventmanagementsystem.dto.EventDTO;
 import com.spm.eventmanagementsystem.dto.UserDTO;
 import com.spm.eventmanagementsystem.entity.Event;
+import com.spm.eventmanagementsystem.exception.ResourceNotFoundException;
 import com.spm.eventmanagementsystem.repository.EventRepository;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class EventServiceImpl implements EventService {
@@ -50,12 +52,38 @@ public class EventServiceImpl implements EventService {
         return eventDTO;
     }
 
-    //RETRIEVE
+    //RETRIEVE - All Events
     @Override
     public List<EventDTO> getAllEvents() {
         List<Event> eventList = eventRepository.findAll();
         return modelMapper.map(eventList, new TypeToken<List<EventDTO>>(){}.getType());
     }
+
+    //RETRIEVE - Single Event
+    @Override
+    public Optional<EventDTO> getSingleEvent(String eventCode) {
+        Optional<Event> event = eventRepository.findEventByEventCode(eventCode);
+        return modelMapper.map(event, new TypeToken<Optional<EventDTO>>(){}.getType());
+    }
+
+//public Optional<EventDTO> getSingleEvent(String eventCode) {
+//    Optional<Event> event = eventRepository.findEventByEventCode(eventCode);
+//
+//    if (event.isPresent()) {
+//        return modelMapper.map(event, new TypeToken<Optional<EventDTO>>(){}.getType());
+//    } else {
+//        throw new ResourceNotFoundException("Event not exist with eventCode: " + eventCode);
+//    }
+//}
+
+
+//    @Override
+//    public Optional<EventDTO> getSingleEvent(String eventCode) throws ResourceNotFoundException {
+//        Event event = eventRepository.findEventByEventCode(eventCode)
+//                .orElseThrow(() -> new ResourceNotFoundException("Event not found with code: " + eventCode));
+//        return modelMapper.map(event, new TypeToken<Optional<EventDTO>>(){}.getType());
+//    }
+
 
 
     //UPDATE

@@ -2,11 +2,15 @@ package com.spm.eventmanagementsystem.controller;
 
 import com.spm.eventmanagementsystem.dto.EventDTO;
 import com.spm.eventmanagementsystem.entity.Event;
+import com.spm.eventmanagementsystem.exception.ResourceNotFoundException;
 import com.spm.eventmanagementsystem.service.EventService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1/event")
@@ -29,21 +33,64 @@ public class EventController {
 /*==================================================================*/
 
 
+    //CREATE
     @PostMapping("/add")
     public EventDTO addEvent(@RequestBody EventDTO eventDTO){
         return eventService.addEvent(eventDTO);
     }
 
+    //RETRIEVE
     @GetMapping("/get")
-    public List<EventDTO> getEvents(){
-        return eventService.getAllEvents();
+    public ResponseEntity<List<EventDTO>> getEvents(){
+        return new ResponseEntity<>(eventService.getAllEvents(), HttpStatus.OK);
+
+    }
+/*======================================*/
+//    public List<EventDTO> getEvents(){
+//        return eventService.getAllEvents();
+//    }
+/*======================================*/
+
+//    @GetMapping("/get/{eventCode}")
+//    ResponseEntity<Optional<EventDTO>> getSingleEvent(@PathVariable String eventCode){
+//        return new ResponseEntity<>(eventService.getSingleEvent(eventCode), HttpStatus.OK);
+//    }
+
+    @GetMapping("/get/{eventCode}")
+    public ResponseEntity<Optional<EventDTO>> getSingleEvent(@PathVariable String eventCode) {
+        try {
+            Optional<EventDTO> event = eventService.getSingleEvent(eventCode);
+
+            if (event.isPresent()) {
+                return new ResponseEntity<>(event, HttpStatus.OK);
+            } else {
+                // Return 404 Not Found if the event is not found
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+        } catch (ResourceNotFoundException e) {
+            // Handle the ResourceNotFoundException thrown by the service layer
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } catch (Exception e) {
+            // Handle other unexpected exceptions
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
+
+
+
+
+
+
+
+
+    //UPDATE
     @PutMapping("/get")
     public EventDTO updateEvent(@RequestBody EventDTO eventDTO){
         return eventService.updateEvent(eventDTO);
     }
 
+    //DELETE
     @DeleteMapping("/delete")
     public boolean deleteEvent(EventDTO eventDTO){
         return eventService.deleteEvent(eventDTO);
