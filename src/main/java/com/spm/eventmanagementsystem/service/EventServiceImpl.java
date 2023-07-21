@@ -20,7 +20,7 @@ public class EventServiceImpl implements EventService {
     @Autowired
     private ModelMapper modelMapper;
 
-
+/*=======================================================*/
 //    @Override
 //    public Event addEvent(EventDTO eventDTO) {
 //        Event event = new Event();
@@ -38,6 +38,8 @@ public class EventServiceImpl implements EventService {
 //        eventRepository.save(event);
 //        return event;
 //    }
+/*=======================================================*/
+
 
     /*U can see how we can reduce boilerplate code with modelmapper dependency*/
 
