@@ -14,6 +14,7 @@ public class EventmanagementsystemApplication {
 		SpringApplication.run(EventmanagementsystemApplication.class, args);
 	}
 
+
 	//This model mapper was added by using the modelmapper dependency
 	@Bean
 	public ModelMapper modelMapper(){
@@ -21,4 +22,5 @@ public class EventmanagementsystemApplication {
 	}
 }
 
-//comment new
+
+

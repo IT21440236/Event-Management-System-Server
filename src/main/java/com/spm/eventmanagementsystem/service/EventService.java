@@ -3,6 +3,7 @@ package com.spm.eventmanagementsystem.service;
 import com.spm.eventmanagementsystem.dto.EventDTO;
 import com.spm.eventmanagementsystem.dto.UserDTO;
 import com.spm.eventmanagementsystem.entity.Event;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,11 +19,18 @@ public interface EventService {
     //RETRIEVE
     public List<EventDTO> getAllEvents();
 
+    //RETRIEVE - Using eventCode
     public Optional<EventDTO> getSingleEvent(String eventCode);
 
     //UPDATE
     public EventDTO updateEvent(EventDTO eventDTO);
 
-    //DELETE
-    public boolean deleteEvent(EventDTO eventDTO);
+    //UPDATE- Using eventCode
+    public Optional<EventDTO> updateEventByEventCode(EventDTO eventDTO, String eventCode);
+
+    //DELETE - All Events
+    public ResponseEntity<EventDTO> deleteAllEvents();
+
+    //DELETE - Singe Event
+    public void deleteEvent(int eventId);
 }

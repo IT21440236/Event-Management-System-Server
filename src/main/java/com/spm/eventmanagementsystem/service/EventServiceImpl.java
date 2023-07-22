@@ -8,6 +8,8 @@ import com.spm.eventmanagementsystem.repository.EventRepository;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -93,12 +95,48 @@ public class EventServiceImpl implements EventService {
         return eventDTO;
     }
 
-
-    //DELETE
+    //UPDATE - using event code
     @Override
-    public boolean deleteEvent(EventDTO eventDTO) {
-//        eventRepository.deleteAll();
-        eventRepository.delete(modelMapper.map(eventDTO, Event.class));
-        return true;
+    public Optional<EventDTO> updateEventByEventCode(EventDTO eventDTO, String eventCode) {
+        Optional<Event> optionalEvent = eventRepository.findEventByEventCode(eventCode);
+
+        if (optionalEvent.isPresent()) {
+            Event event = optionalEvent.get();
+            // Update the event object with data from eventDTO
+            event.setEventCode(eventDTO.getEventCode());
+            event.setEventName(eventDTO.getEventName());
+            event.setDate(eventDTO.getDate());
+            event.setTime(eventDTO.getTime());
+            event.setVenue(eventDTO.getVenue());
+            event.setDescription(eventDTO.getDescription());
+            event.setOrganizer(eventDTO.getOrganizer());
+            event.setCategory(eventDTO.getCategory());
+            event.setGuestCount(eventDTO.getGuestCount());
+            event.setStatus(eventDTO.getStatus());
+
+            // Save the updated event object back to the repository
+            event = eventRepository.save(event);
+
+            return Optional.of(modelMapper.map(event, EventDTO.class));
+        } else {
+            // Return empty if the event with the given eventCode doesn't exist
+            return Optional.empty();
+        }
     }
+
+    //DELETE - All Events
+    @Override
+    public ResponseEntity<EventDTO> deleteAllEvents() {
+        eventRepository.deleteAll();
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+
+    }
+
+    @Override
+    public void deleteEvent(int eventId) {
+        eventRepository.deleteById(eventId);
+    }
+
+
+
 }

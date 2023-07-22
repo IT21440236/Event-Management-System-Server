@@ -77,22 +77,52 @@ public class EventController {
     }
 
 
-
-
-
-
-
-
-
     //UPDATE
     @PutMapping("/get")
     public EventDTO updateEvent(@RequestBody EventDTO eventDTO){
         return eventService.updateEvent(eventDTO);
     }
 
-    //DELETE
-    @DeleteMapping("/delete")
-    public boolean deleteEvent(EventDTO eventDTO){
-        return eventService.deleteEvent(eventDTO);
+    //UPDATE - using eventCode
+    @PutMapping("/get/{eventCode}")
+    public ResponseEntity<Optional<EventDTO>> updateEventByEventCode(@PathVariable String eventCode,
+                                                                     @RequestBody EventDTO eventDTO){
+
+        try{
+            Optional<EventDTO> event = eventService.updateEventByEventCode(eventDTO, eventCode);
+
+            if (event.isPresent()) {
+                return new ResponseEntity<>(event, HttpStatus.OK);
+            } else {
+                // Return 404 Not Found if the event is not found
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+
+        } catch (ResourceNotFoundException e) {
+            // Handle the ResourceNotFoundException thrown by the service layer
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } catch (Exception e) {
+            // Handle other unexpected exceptions
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
     }
+
+
+    //DELETE - All Events
+    @DeleteMapping("/delete")
+    public ResponseEntity<EventDTO> deleteAllEvents(){
+        eventService.deleteAllEvents();
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    //DELETE - Single Event using eventId
+    @DeleteMapping("/delete/{eventId}")
+    public ResponseEntity<Void> deleteEventByEventCode(@PathVariable int eventId){
+        eventService.deleteEvent(eventId);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+    //Deleting using eventCode, tried not working --> Check.
+    //Just writing the method name in repo didnt work.
+    //Build the logic for it.
 }
